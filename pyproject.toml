@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crm1"
-version = "0.0.2"
+version = "0.0.3"
 description = "A CRM-1 repository exploration package"
 authors = ["JoJoJux <johannes@jojojux.de>"]
 license = "MIT"
