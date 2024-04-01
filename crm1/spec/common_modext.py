@@ -36,7 +36,7 @@ class CommonModExt:
     Each element is a list of two strings: the name and the URL."""
     alt_versions: Optional[list["spec.mod.RMod"]] = None
     """A list of older versions of the mod."""
-    suggests: Optional[list[spec.RDependency]] = None
+    suggests: Optional[list["spec.dependency.RDependency"]] = None
     """A list of suggested mods, that are not required
     but are recommended to be installed with this mod."""
     prerelease: Optional[bool] = None
