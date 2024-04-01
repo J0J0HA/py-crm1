@@ -2,7 +2,7 @@
 
 from typing import Optional, overload
 
-from .. import data as datacls
+from .. import spec
 from .mod import Mod
 from .repository import Repository
 
@@ -21,7 +21,7 @@ class RepositoryPool:
         """Adds a repository to the pool by providing the address."""
 
     @overload
-    def add_repository(self, repo: datacls.resp.RRepository):
+    def add_repository(self, repo: spec.RRepository):
         """Adds a repository to the pool that has already been fetched."""
 
     @overload
@@ -32,7 +32,7 @@ class RepositoryPool:
         """Above"""
         if isinstance(repo, str):
             repo = Repository(repo)
-        if isinstance(repo, datacls.resp.RRepository):
+        if isinstance(repo, spec.RRepository):
             repo = Repository(None, repo)
         self.repositories[repo.root_id] = repo
 

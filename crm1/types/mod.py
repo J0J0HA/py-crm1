@@ -1,29 +1,29 @@
 """Don't import this module directly."""
 
-from .. import data as datacls
 from .dependency import Dependency
+from .. import spec
 
 
 class Mod:
     """This class represents a mod.
 
     Raises:
-        ValueError: If the data is not of type datacls.resp.RMod
+        ValueError: If the data is not of type spec.RMod
     """
 
-    meta: datacls.resp.RMod
+    meta: spec.RMod
     """The raw data of the mod."""
 
-    def __init__(self, data: datacls.resp.RMod):
+    def __init__(self, data: spec.RMod):
         self.meta = data
-        if not isinstance(self.meta, datacls.resp.RMod):
+        if not isinstance(self.meta, spec.RMod):
             raise ValueError("Invalid data type")
 
     @property
-    def known_ext(self) -> datacls.KnownModExt:
+    def known_ext(self) -> spec.UnsafeModExt:
         """Converts the ext field to a KnownModExt object.
         This allows for easier access to the fields in the ext field."""
-        return datacls.KnownModExt.from_dict(self.meta.ext)
+        return spec.UnsafeModExt.from_dict(self.meta.ext)
 
     @property
     def id(self) -> str:

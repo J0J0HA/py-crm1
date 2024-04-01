@@ -2,9 +2,9 @@
 
 from typing import Optional, overload
 
-from .. import data as datacls
 from .. import utils
 from .mod import Mod
+from .. import spec
 
 
 class Repository:
@@ -12,11 +12,11 @@ class Repository:
 
     address: Optional[str]
     """The address of the repository."""
-    data: datacls.resp.RRepository
+    data: spec.RRepository
     """The raw data of the repository."""
 
     @overload
-    def __init__(self, address: Optional[str], data: datacls.resp.RRepository):
+    def __init__(self, address: Optional[str], data: spec.RRepository):
         """Initializes a repository with an address and data."""
 
     @overload
@@ -25,16 +25,17 @@ class Repository:
 
     @overload
     def __init__(self, address: Optional[str], data: dict):
-        """Initializes a repository with an address and data. The data will be converted to a datacls.resp.RRepository."""
+        """Initializes a repository with an address and data.
+        The data will be converted to a spec.RRepository."""
 
     def __init__(self, address, data=None):
         if isinstance(data, dict):
-            data = datacls.resp.RRepository.from_dict(address)
+            data = spec.RRepository.from_dict(address)
         self.address = address
         self.data = data
         if data is None:
             self.update()
-        if not isinstance(self.data, datacls.resp.RRepository):
+        if not isinstance(self.data, spec.RRepository):
             raise ValueError("Invalid data type")
         if self.data.spec_version != 1:
             raise ValueError("Unsupported spec version", self.data.spec_version)

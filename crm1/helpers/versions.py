@@ -1,3 +1,5 @@
+"""A module for handling versions."""
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
@@ -27,7 +29,8 @@ class Version:
 
     @staticmethod
     def from_string(version: str) -> "Version":
-        """Create a Version object from a string. The string should be in the format of `major.minor.patch`."""
+        """Create a Version object from a string.
+        The string should be in the format of `major.minor.patch`."""
         parts = version.split(".")
         if len(parts) < 2:
             raise ValueError("Invalid version string")
@@ -109,7 +112,8 @@ class VersionRange:
 
     @staticmethod
     def from_string(range_: str) -> "VersionRange":
-        """Create a VersionRange object from a string. The string should be in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
+        """Create a VersionRange object from a string.
+        The string should be in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
         if range_.startswith("["):
             lower_mode = VersionEndMode.INCLUSIVE
         elif range_.startswith("("):
@@ -131,7 +135,8 @@ class VersionRange:
         return VersionRange(lower, lower_mode, upper, upper_mode)
 
     def to_string(self) -> str:
-        """Convert the version range to a string in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
+        """Convert the version range to a string in the format of `[lower,upper]`.
+        Examples: `[1.0,2.0.1)`, `(1.0,]`."""
         if (
             self.lower is not None
             and self.upper is not None

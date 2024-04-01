@@ -5,12 +5,12 @@ from typing import Optional
 
 from dataclasses_json import CatchAll, LetterCase, dataclass_json
 
-from .. import data as datacls
+from .. import spec
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
-class KnownModExt:
+class UnsafeModExt:
     """Some known mod.ext data."""
 
     icon: Optional[str] = None
@@ -34,7 +34,7 @@ class KnownModExt:
     alt_download: Optional[list[list[str, str]]] = None
     """A list of alternative download URLs.
     Each element is a list of two strings: the name and the URL."""
-    suggests: Optional[list[datacls.resp.RDependency]] = None
+    suggests: Optional[list[spec.RDependency]] = None
     """A list of suggested mods, that are not required
     but are recommended to be installed with this mod."""
     prerelease: Optional[bool] = None

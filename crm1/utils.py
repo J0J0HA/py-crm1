@@ -5,7 +5,7 @@ from functools import lru_cache
 import hjson
 import requests
 
-from . import data as datacls
+from . import spec
 
 
 @lru_cache(maxsize=128)
@@ -15,7 +15,7 @@ def get_request(address: str) -> dict:
     return hjson.loads(response.text)
 
 
-def fetch_repository(address: str) -> datacls.resp.RRepository:
+def fetch_repository(address: str) -> spec.RRepository:
     """Fetches a repository from the given address."""
     data = get_request(address)
-    return datacls.resp.RRepository.from_dict(data)
+    return spec.RRepository.from_dict(data)

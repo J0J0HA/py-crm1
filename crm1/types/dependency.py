@@ -2,7 +2,7 @@
 
 from typing import TYPE_CHECKING, Optional, overload
 
-from .. import data as datacls
+from .. import spec
 
 if TYPE_CHECKING:
     from .mod import Mod
@@ -21,7 +21,7 @@ class Dependency:
     """The repository rootId of the mod."""
     mod: Optional["Mod"] = None
 
-    def __init__(self, meta: datacls.resp.RDependency):
+    def __init__(self, meta: spec.RDependency):
         self.id = meta.id
         self.version = meta.version
         self.source = meta.source

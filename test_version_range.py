@@ -1,3 +1,5 @@
+"""Test the VersionRange class and related functions."""
+
 from crm1.helpers.versions import Version, VersionRange, range_from_maven_string
 
 

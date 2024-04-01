@@ -61,7 +61,7 @@ Everything is typed and documented, so you can use your IDE's autocomplete and d
 
 ## Helpers
 
-### ```helpers.versions```
+### Versions
 
 The ```helpers.versions``` module provides classes to work with versions and version ranges.
 
