@@ -34,10 +34,9 @@ class UnsafeModExt:
     alt_download: Optional[list[list[str, str]]] = None
     """A list of alternative download URLs.
     Each element is a list of two strings: the name and the URL."""
+    alt_versions: Optional[list["RMod"]] = None
     suggests: Optional[list[spec.RDependency]] = None
     """A list of suggested mods, that are not required
     but are recommended to be installed with this mod."""
     prerelease: Optional[bool] = None
     """Pre-release status of the mod release. If true, the mod's release is a pre-release."""
-    ext: Optional[dict] = CatchAll
-    """All mod.ext data that is not covered by the above fields."""
