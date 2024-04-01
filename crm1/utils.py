@@ -12,7 +12,7 @@ from . import spec
 def get_request(address: str) -> dict:
     """Performs a GET request to the given address and returns the HJSON response."""
     response = requests.get(address, timeout=5)
-    return hjson.loads(response.text)
+    return hjson.loads(response.text, object_pairs_hook=dict)
 
 
 def fetch_repository(address: str) -> spec.RRepository:
