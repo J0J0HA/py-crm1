@@ -10,4 +10,4 @@ def get_all_repos():
     """Fetches all known repositories from the autorepo server."""
     address = f"{AUTOREPO_URL}/repo_mapping.json"
     response = get_request(address)
-    return [Repository(repo["url"]) for repo in response["repos"]]
+    return [Repository(repo) for repo in response["repos"].values()]

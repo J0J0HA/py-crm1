@@ -66,3 +66,25 @@ class RepositoryPool:
 
     def __getitem__(self, key: str) -> Repository:
         return self.get_repository(key)
+
+
+@overload
+def make_pool(repos: list[Repository]) -> RepositoryPool:
+    """Creates a repository pool from a list of repositories."""
+
+
+@overload
+def make_pool(*repos: Repository) -> RepositoryPool:
+    """Creates a repository pool from multiple repositories."""
+
+
+def make_pool(*repos):
+    """Above"""
+    if len(repos) == 1 and isinstance(repos[0], list):
+        repos = repos[0]
+    pool = RepositoryPool()
+    for repo in repos:
+        if not isinstance(repo, Repository):
+            raise TypeError("Invalid repository", repo)
+        pool.add_repository(repo)
+    return pool

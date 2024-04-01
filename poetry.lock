@@ -126,6 +126,17 @@ marshmallow = ">=3.18.0,<4.0.0"
 typing-inspect = ">=0.4.0,<1"
 
 [[package]]
+name = "hjson"
+version = "3.1.0"
+description = "Hjson, a user interface for JSON."
+optional = false
+python-versions = "*"
+files = [
+    {file = "hjson-3.1.0-py3-none-any.whl", hash = "sha256:65713cdcf13214fb554eb8b4ef803419733f4f5e551047c9b711098ab7186b89"},
+    {file = "hjson-3.1.0.tar.gz", hash = "sha256:55af475a27cf83a7969c808399d7bccdec8fb836a07ddbd574587593b9cdcf75"},
+]
+
+[[package]]
 name = "idna"
 version = "3.6"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -175,17 +186,6 @@ python-versions = ">=3.7"
 files = [
     {file = "packaging-24.0-py3-none-any.whl", hash = "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5"},
     {file = "packaging-24.0.tar.gz", hash = "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"},
-]
-
-[[package]]
-name = "py-hjson"
-version = "1.0.0"
-description = "A package for handling json files"
-optional = false
-python-versions = "*"
-files = [
-    {file = "py-hJson-1.0.0.tar.gz", hash = "sha256:ec92643b4742bb0c3b63077c186c848d5e0868f87566be3c6e263e518c547d30"},
-    {file = "py_hJson-1.0.0-py3-none-any.whl", hash = "sha256:a4fc21295853c9d12d29fb295d241c5102a70dcee0ae7b347b773aafdce9d8c6"},
 ]
 
 [[package]]
@@ -255,4 +255,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8a8dd088694baf459bec096eedb89ec773636bd2679b21b8ab24dcf84df59928"
+content-hash = "26917246411fece7a5592003c0949aefcc2442b9fdecb6f50e04a47d6de844ec"
