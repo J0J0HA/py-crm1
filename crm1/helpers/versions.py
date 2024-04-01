@@ -1,24 +1,33 @@
 from dataclasses import dataclass
-from typing import Optional
 from enum import Enum
+from typing import Optional
 
 
 class VersionEndMode(Enum):
+    """The mode of the end of a version range. This can be inclusive or exclusive."""
+
     INCLUSIVE = "inclusive"
     EXCLUSIVE = "exclusive"
 
 
 DONTCARE = VersionEndMode.EXCLUSIVE
+"""This is used to represent the end of a version range which's version is not specified."""
 
 
 @dataclass
 class Version:
+    """A version."""
+
     major: int
+    """The major version."""
     minor: int
+    """The minor version."""
     patch: int
+    """The patch version."""
 
     @staticmethod
     def from_string(version: str) -> "Version":
+        """Create a Version object from a string. The string should be in the format of `major.minor.patch`."""
         parts = version.split(".")
         if len(parts) < 2:
             raise ValueError("Invalid version string")
@@ -30,6 +39,7 @@ class Version:
         return Version(major, minor, patch)
 
     def to_string(self) -> str:
+        """Convert the version to a string in the format of `major.minor.patch`."""
         return f"{self.major}.{self.minor}" + (
             f".{self.patch}" if self.patch is not None else ""
         )
@@ -78,17 +88,28 @@ class Version:
 
 @dataclass
 class VersionRange:
+    """A range of versions."""
+
     lower: Optional[Version]
+    """The lower bound of the range."""
     lower_mode: VersionEndMode
+    """The mode of the lower bound of the range."""
     upper: Optional[Version]
+    """The upper bound of the range."""
     upper_mode: VersionEndMode
-    
+    """The mode of the upper bound of the range."""
+
     def __post_init__(self):
-        if self.lower is not None and self.upper is not None and self.lower > self.upper:
+        if (
+            self.lower is not None
+            and self.upper is not None
+            and self.lower > self.upper
+        ):
             raise ValueError("Invalid range")
 
     @staticmethod
     def from_string(range_: str) -> "VersionRange":
+        """Create a VersionRange object from a string. The string should be in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
         if range_.startswith("["):
             lower_mode = VersionEndMode.INCLUSIVE
         elif range_.startswith("("):
@@ -110,7 +131,12 @@ class VersionRange:
         return VersionRange(lower, lower_mode, upper, upper_mode)
 
     def to_string(self) -> str:
-        if self.lower is not None and self.upper is not None and self.lower == self.upper:
+        """Convert the version range to a string in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
+        if (
+            self.lower is not None
+            and self.upper is not None
+            and self.lower == self.upper
+        ):
             return self.lower.to_string()
         return (
             ("[" if self.lower_mode == VersionEndMode.INCLUSIVE else "(")
@@ -121,6 +147,7 @@ class VersionRange:
         )
 
     def contains(self, version: Version) -> bool:
+        """Check if the version is in the range."""
         if self.lower is not None:
             if self.lower_mode == VersionEndMode.INCLUSIVE:
                 if version < self.lower:
@@ -145,6 +172,7 @@ class VersionRange:
 
 
 def range_from_maven_string(version: str):
+    """Create a VersionRange object from a Maven version string."""
     if version.startswith(">="):
         lower_mode = VersionEndMode.INCLUSIVE
         lower = Version.from_string(version[2:])
