@@ -113,13 +113,14 @@ class VersionRange:
     @staticmethod
     def from_string(range_: str) -> "VersionRange":
         """Create a VersionRange object from a string.
-        The string should be in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`."""
+        The string should be in the format of `[lower,upper]`. Examples: `[1.0,2.0.1)`, `(1.0,]`.
+        """
         if range_.startswith("["):
             lower_mode = VersionEndMode.INCLUSIVE
         elif range_.startswith("("):
             lower_mode = VersionEndMode.EXCLUSIVE
         else:
-            raise ValueError("Invalid range string")
+            return VersionRange(Version.from_string(range_), DONTCARE, Version.from_string(range_), DONTCARE)
         if range_.endswith("]"):
             upper_mode = VersionEndMode.INCLUSIVE
         elif range_.endswith(")"):
@@ -144,11 +145,19 @@ class VersionRange:
         ):
             return self.lower.to_string()
         return (
-            ("[" if self.lower_mode == VersionEndMode.INCLUSIVE else "(")
+            (
+                ("[" if self.lower_mode == VersionEndMode.INCLUSIVE else "(")
+                if self.lower is not None
+                else "("
+            )
             + (self.lower.to_string() if self.lower else "")
             + ","
             + (self.upper.to_string() if self.upper else "")
-            + ("]" if self.upper_mode == VersionEndMode.INCLUSIVE else ")")
+            + (
+                ("]" if self.upper_mode == VersionEndMode.INCLUSIVE else ")")
+                if self.upper is not None
+                else ")"
+            )
         )
 
     def contains(self, version: Version) -> bool:
