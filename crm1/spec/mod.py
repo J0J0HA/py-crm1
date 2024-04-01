@@ -4,8 +4,8 @@ from dataclasses import dataclass
 
 from dataclasses_json import LetterCase, dataclass_json
 
+from .common_modext import CommonModExt
 from .dependency import RDependency
-from .unsafe_modext import UnsafeModExt
 
 
 @dataclass_json(letter_case=LetterCase.CAMEL)
@@ -29,5 +29,5 @@ class RMod:
     """The download URL of the mod's jar."""
     deps: list[RDependency]
     """A list of dependencies of the mod."""
-    ext: dict | UnsafeModExt
+    ext: CommonModExt
     """Some optional additional info of the mod."""

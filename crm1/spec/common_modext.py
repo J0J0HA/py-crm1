@@ -1,17 +1,17 @@
 """Don't import this module directly."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
-from dataclasses_json import CatchAll, LetterCase, dataclass_json
+from dataclasses_json import CatchAll, LetterCase, Undefined, dataclass_json
 
 from .. import spec
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
+@dataclass_json(letter_case=LetterCase.CAMEL, undefined=Undefined.INCLUDE)
 @dataclass
-class UnsafeModExt:
-    """Some known mod.ext data."""
+class CommonModExt:
+    """Some common mod.ext fields. Unknown fields are stored in `others`."""
 
     icon: Optional[str] = None
     """A URL to the mod's icon."""
@@ -34,9 +34,12 @@ class UnsafeModExt:
     alt_download: Optional[list[list[str, str]]] = None
     """A list of alternative download URLs.
     Each element is a list of two strings: the name and the URL."""
-    alt_versions: Optional[list["RMod"]] = None
+    alt_versions: Optional[list["spec.mod.RMod"]] = None
+    """A list of older versions of the mod."""
     suggests: Optional[list[spec.RDependency]] = None
     """A list of suggested mods, that are not required
     but are recommended to be installed with this mod."""
     prerelease: Optional[bool] = None
     """Pre-release status of the mod release. If true, the mod's release is a pre-release."""
+    others: CatchAll = field(default_factory=dict)
+    """Any other fields that are not defined in this class."""

@@ -39,6 +39,10 @@ pool2 = make_pool(repos)
 mod = pool.get_mod("dev.crmodders.flux")
 print(mod.meta.name)  # This will print "Flux API", the mods name
 
+print(mod.meta.ext.changelog) # The mod.meta.ext attribute holds the CommonModExt object, which add typing and docs to commonly used fileds the mod.ext dict.
+# The unknown fields are stored in the mod.meta.ext.others attribute, which is a dict.
+# If you want to get the original mod.ext dict, you can use mod.original_ext.
+
 # Now we load a different mod
 mod2 = pool.get_mod("com.nikrasoff.seamlessportals")
 

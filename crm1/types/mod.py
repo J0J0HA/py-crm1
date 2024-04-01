@@ -1,7 +1,7 @@
 """Don't import this module directly."""
 
-from .dependency import Dependency
 from .. import spec
+from .dependency import Dependency
 
 
 class Mod:
@@ -20,10 +20,9 @@ class Mod:
             raise ValueError("Invalid data type")
 
     @property
-    def known_ext(self) -> spec.UnsafeModExt:
-        """Converts the ext field to a KnownModExt object.
-        This allows for easier access to the fields in the ext field."""
-        return spec.UnsafeModExt.from_dict(self.meta.ext)
+    def original_ext(self) -> dict:
+        """This holds the original mod.ext data."""
+        return self.meta.ext.to_dict()
 
     @property
     def id(self) -> str:
