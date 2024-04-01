@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "crm1"
-version = "0.0.5"
+version = "0.0.6"
 description = "A CRM-1 repository exploration package"
 authors = ["JoJoJux <johannes@jojojux.de>"]
 license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 requests = "^2.31.0"
 dataclasses-json = "^0.6.4"
 hjson = "^3.1.0"
