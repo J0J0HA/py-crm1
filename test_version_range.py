@@ -43,3 +43,5 @@ print(str(range_from_maven_string("<=1.0")))
 # (,1.0.0]
 print(str(range_from_maven_string("1.0")))
 # 1.0.0
+print(str(range_from_maven_string("*")))
+# (,)

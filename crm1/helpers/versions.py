@@ -178,6 +178,8 @@ class VersionRange:
 
 def range_from_maven_string(version: str):
     """Create a VersionRange object from a Maven version string."""
+    if version == "*":
+        return VersionRange(None, DONTCARE, None, DONTCARE)
     if version.startswith(">="):
         lower_mode = VersionEndMode.INCLUSIVE
         lower = Version.from_string(version[2:])
