@@ -37,5 +37,5 @@ class Mod:
     @property
     def suggests(self) -> list[Dependency]:
         """The suggestions of the mod."""
-        if self.known_ext.suggests is not None:
-            return [Dependency(dep) for dep in self.known_ext.suggests]
+        if self.meta.ext.suggests is not None:
+            return [Dependency(dep) for dep in self.meta.ext.suggests]

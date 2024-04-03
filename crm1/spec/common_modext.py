@@ -3,14 +3,17 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
-from dataclasses_json import CatchAll, LetterCase, Undefined, dataclass_json
+from dataclasses_json import CatchAll, Undefined
 
 from .. import spec
+from dataclasses_hjson import DataClassHjsonMixin, using_config
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL, undefined=Undefined.INCLUDE)
+@using_config(
+    undefined=Undefined.EXCLUDE,
+)
 @dataclass
-class CommonModExt:
+class CommonModExt(DataClassHjsonMixin):
     """Some common mod.ext fields. Unknown fields are stored in `others`."""
 
     icon: Optional[str] = None

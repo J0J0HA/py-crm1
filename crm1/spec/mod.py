@@ -2,15 +2,16 @@
 
 from dataclasses import dataclass
 
-from dataclasses_json import LetterCase, dataclass_json
+from dataclasses_json import LetterCase
 
 from .common_modext import CommonModExt
 from .dependency import RDependency
 
+from dataclasses_hjson import DataClassHjsonMixin
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
+
 @dataclass
-class RMod:
+class RMod(DataClassHjsonMixin):
     """Raw mod data. This is used for deserialization."""
 
     id: str

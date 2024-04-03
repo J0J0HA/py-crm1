@@ -30,7 +30,7 @@ class Repository:
 
     def __init__(self, address, data=None):
         if isinstance(data, dict):
-            data = spec.RRepository.from_dict(address)
+            data = spec.RRepository.from_dict(data)
         self.address = address
         self.data = data
         if data is None:

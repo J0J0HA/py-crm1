@@ -28,10 +28,16 @@ class RepositoryPool:
     def add_repository(self, repo: Repository):
         """Adds a repository to the pool."""
 
+    @overload
+    def add_repository(self, data: dict[str, str]):
+        """Adds a repository to the pool."""
+
     def add_repository(self, repo):
         """Above"""
         if isinstance(repo, str):
             repo = Repository(repo)
+        if isinstance(repo, dict):
+            repo = spec.RRepository.from_dict(repo)
         if isinstance(repo, spec.RRepository):
             repo = Repository(None, repo)
         self.repositories[repo.root_id] = repo

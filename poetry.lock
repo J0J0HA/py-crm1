@@ -122,6 +122,20 @@ files = [
 ]
 
 [[package]]
+name = "dataclasses-hjson"
+version = "0.0.3"
+description = "A simple mixin that adds .to_hjson and .from_hjson to the dataclasses-json mixin"
+optional = false
+python-versions = "<4.0,>=3.7"
+files = [
+    {file = "dataclasses_hjson-0.0.3-py3-none-any.whl", hash = "sha256:d41920c324ad87f4f9fc3ed5e84189501261c24546b61b92f8297126e99ab885"},
+    {file = "dataclasses_hjson-0.0.3.tar.gz", hash = "sha256:77f041d4e37bd1c111593304c77a5381d1805a128d6d3743a517e80322a877f7"},
+]
+
+[package.dependencies]
+dataclasses-json = ">=0.6.4,<0.7.0"
+
+[[package]]
 name = "dataclasses-json"
 version = "0.6.4"
 description = "Easily serialize dataclasses to and from JSON."
@@ -339,4 +353,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "d5e731b417d967373dcd643f1988c5aefb002d2eee3a98c313fff8726d1dfd75"
+content-hash = "2309927b37686b61a3e9b57a700c70ed09d7a19506f066b5b9be883d25fbafc9"

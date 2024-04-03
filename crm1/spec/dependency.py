@@ -3,12 +3,12 @@
 from dataclasses import dataclass
 from typing import Optional
 
-from dataclasses_json import LetterCase, dataclass_json
+
+from dataclasses_hjson import DataClassHjsonMixin
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
-class RDependency:
+class RDependency(DataClassHjsonMixin):
     """Raw dependency data. This is used for deserialization."""
 
     id: str

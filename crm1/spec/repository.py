@@ -2,14 +2,13 @@
 
 from dataclasses import dataclass
 
-from dataclasses_json import LetterCase, dataclass_json
 
 from .mod import RMod
+from dataclasses_hjson import DataClassHjsonMixin
 
 
-@dataclass_json(letter_case=LetterCase.CAMEL)
 @dataclass
-class RRepository:
+class RRepository(DataClassHjsonMixin):
     """Raw repository data. This is used for deserialization."""
 
     spec_version: int
