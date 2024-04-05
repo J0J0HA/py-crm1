@@ -5,6 +5,9 @@ description = "A CRM-1 repository exploration package"
 authors = ["JoJoJux <johannes@jojojux.de>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/J0J0HA/py-crm1"
+homepage = "https://github.com/J0J0HA/py-crm1"
+keywords = ["crm1", "repository", "exploration", "python"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
