@@ -3,19 +3,19 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
+from dataclasses_hjson import DataClassHjsonMixin
 from dataclasses_json import CatchAll, Undefined
 
-from .. import spec
-from dataclasses_hjson import DataClassHjsonMixin, using_config
+from .. import v1 as spec
 
 
-@using_config(
-    undefined=Undefined.EXCLUDE,
-)
 @dataclass
 class CommonModExt(DataClassHjsonMixin):
     """Some common mod.ext fields. Unknown fields are stored in `others`."""
 
+    dataclass_json_config = {
+        "undefined": Undefined.INCLUDE,
+    }
     icon: Optional[str] = None
     """A URL to the mod's icon."""
     modid: Optional[str] = None

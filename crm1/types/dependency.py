@@ -1,6 +1,6 @@
 """Don't import this module directly."""
 
-from typing import TYPE_CHECKING, Optional, overload
+from typing import TYPE_CHECKING, Optional, Union, overload
 
 from .. import spec
 
@@ -29,13 +29,50 @@ class Dependency:
 
     @overload
     def resolve(self, pool: "RepositoryPool") -> "Mod":
-        """Resolves the dependency using the given pool."""
+        """
+        Resolves the dependency using the given pool.
+
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
 
     @overload
-    def resolve(self, repo: "Repository") -> "Mod":
-        """Resolves the dependency using the given repository."""
+    def resolve(self, repository: "Repository") -> "Mod":
+        """
+        Resolves the dependency using the given repository.
 
-    def resolve(self, repo=None):
-        """Above"""
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
+
+    def resolve(self, repo: Union["RepositoryPool", "Repository"]):
+        """
+        Resolves the dependency.
+
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
         self.mod = repo.get_mod(self.id)
+        return self.mod
+
+    @overload
+    def resolves(self, pool: "RepositoryPool") -> "Mod":
+        """
+        Resolves the dependency using the given pool.
+
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
+
+    @overload
+    def resolves(self, repository: "Repository") -> "Mod":
+        """
+        Resolves the dependency using the given repository.
+
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
+
+    def resolves(self, repo: Union["RepositoryPool", "Repository"]):
+        """
+        Resolves the dependency.
+
+        WARNING: This does not yet check for source (if using pools) or version.
+        """
+        self.mod = repo.get_mods(self.id)
         return self.mod

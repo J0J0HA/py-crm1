@@ -1,6 +1,6 @@
 """Don't import this module directly."""
 
-from functools import lru_cache
+from typing import Optional
 
 import hjson
 import requests
@@ -8,14 +8,16 @@ import requests
 from . import spec
 
 
-@lru_cache(maxsize=128)
-def get_request(address: str) -> dict:
-    """Performs a GET request to the given address and returns the HJSON response."""
-    response = requests.get(address, timeout=5)
-    return hjson.loads(response.text, object_pairs_hook=dict)
-
-
-def fetch_repository(address: str) -> spec.RRepository:
+def fetch_repo_data(address: str, timeout: Optional[int] = None) -> spec.RRepository:
     """Fetches a repository from the given address."""
-    data = get_request(address)
-    return spec.RRepository.from_dict(data)
+    response = requests.get(address, timeout=timeout)
+    data = hjson.loads(response.text, object_pairs_hook=dict)
+    return get_repo_data_from(data)
+
+
+def get_repo_data_from(data: dict) -> spec.RRepository:
+    """Gets the repository data class for a specific specification version."""
+    spec_version = data.get("specVersion", 0)
+    if spec_version not in spec.supported_spec_versions:
+        raise ValueError("Unsupported repository specification version", spec_version)
+    return spec.supported_spec_versions[spec_version].RRepository.from_dict(data)

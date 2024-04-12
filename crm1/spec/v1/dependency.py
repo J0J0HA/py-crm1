@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from typing import Optional
 
-
 from dataclasses_hjson import DataClassHjsonMixin
 
 

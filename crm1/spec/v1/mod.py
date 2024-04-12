@@ -2,12 +2,10 @@
 
 from dataclasses import dataclass
 
-from dataclasses_json import LetterCase
+from dataclasses_hjson import DataClassHjsonMixin
 
 from .common_modext import CommonModExt
 from .dependency import RDependency
-
-from dataclasses_hjson import DataClassHjsonMixin
 
 
 @dataclass

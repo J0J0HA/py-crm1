@@ -5,7 +5,8 @@ from .dependency import Dependency
 
 
 class Mod:
-    """This class represents a mod.
+    """
+    This class represents a mod.
 
     Raises:
         ValueError: If the data is not of type spec.RMod
@@ -31,11 +32,11 @@ class Mod:
 
     @property
     def depends(self) -> list[Dependency]:
-        """The dependencies of the mod."""
+        """The required dependencies of the mod."""
         return [Dependency(dep) for dep in self.meta.deps]
 
     @property
     def suggests(self) -> list[Dependency]:
-        """The suggestions of the mod."""
+        """The suggested dependencies of the mod."""
         if self.meta.ext.suggests is not None:
             return [Dependency(dep) for dep in self.meta.ext.suggests]

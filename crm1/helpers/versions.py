@@ -120,7 +120,12 @@ class VersionRange:
         elif range_.startswith("("):
             lower_mode = VersionEndMode.EXCLUSIVE
         else:
-            return VersionRange(Version.from_string(range_), DONTCARE, Version.from_string(range_), DONTCARE)
+            return VersionRange(
+                Version.from_string(range_),
+                DONTCARE,
+                Version.from_string(range_),
+                DONTCARE,
+            )
         if range_.endswith("]"):
             upper_mode = VersionEndMode.INCLUSIVE
         elif range_.endswith(")"):
@@ -163,19 +168,15 @@ class VersionRange:
     def contains(self, version: Version) -> bool:
         """Check if the version is in the range."""
         if self.lower is not None:
-            if self.lower_mode == VersionEndMode.INCLUSIVE:
-                if version < self.lower:
-                    return False
-            else:
-                if version <= self.lower:
-                    return False
+            if version < self.lower:
+                return False
+            if self.lower_mode == VersionEndMode.EXCLUSIVE and version == self.lower:
+                return False
         if self.upper is not None:
-            if self.upper_mode == VersionEndMode.INCLUSIVE:
-                if version > self.upper:
-                    return False
-            else:
-                if version >= self.upper:
-                    return False
+            if version > self.upper:
+                return False
+            if self.upper_mode == VersionEndMode.EXCLUSIVE and version == self.upper:
+                return False
         return True
 
     def __contains__(self, version: Version) -> bool:
