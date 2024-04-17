@@ -75,3 +75,34 @@ class TestVersionRange:
         assert v3 >= v1
         assert v3 >= v2
         assert v1 >= v2
+        
+    def test_less_than(self):
+        v_1_0_0_r1_22 = Version.from_string("1.0.0-r1+22")
+        v_1_0_0_r1_33 = Version.from_string("1.0.0-r1+33")
+        v_1_0_0_r2_22 = Version.from_string("1.0.0-r2+22")
+        
+        assert v_1_0_0_r1_22 == v_1_0_0_r1_33
+        assert v_1_0_0_r1_22 < v_1_0_0_r2_22
+        assert v_1_0_0_r1_33 < v_1_0_0_r2_22
+        
+        v_1_0_0_alpha_1 = Version.from_string("1.0.0-alpha.1")
+        v_1_0_0_alpha_2 = Version.from_string("1.0.0-alpha.2")
+        v_1_0_0_beta_1 = Version.from_string("1.0.0-beta.1")
+        
+        assert v_1_0_0_alpha_1 < v_1_0_0_alpha_2
+        assert v_1_0_0_alpha_1 < v_1_0_0_beta_1
+        assert v_1_0_0_alpha_2 < v_1_0_0_beta_1
+        
+        v_1_0_0 = Version.from_string("1.0.0")
+        v_1_0_1 = Version.from_string("1.0.1")
+        v_1_1_0 = Version.from_string("1.1.0")
+        
+        assert v_1_0_0 < v_1_0_1
+        assert v_1_0_0 < v_1_1_0
+        assert v_1_0_1 < v_1_1_0
+        
+        v_1_0_0_r_a = Version.from_string("1.0.0-r.a")
+        v_1_0_0_r_1 = Version.from_string("1.0.0-r.1")
+        
+        assert v_1_0_0_r_a > v_1_0_0_r_1        
+        

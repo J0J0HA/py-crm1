@@ -16,6 +16,10 @@ DONTCARE = VersionEndMode.EXCLUSIVE
 """This is used to represent the end of a version range which's version is not specified."""
 
 
+def _make_list_fun(lst, ln=2, fun=None):
+    return lst + [fun] * (ln - len(lst))
+
+
 @dataclass
 class Version:
     """A version."""
@@ -26,25 +30,40 @@ class Version:
     """The minor version."""
     patch: int
     """The patch version."""
+    prerelease_tags: list[str]
+    """The prerelease tags of the version."""
+    build_metadata: Optional[str]
+    """The build metadata part of the version."""
 
     @staticmethod
     def from_string(version: str) -> "Version":
         """Create a Version object from a string.
         The string should be in the format of `major.minor.patch`."""
-        parts = version.split(".")
-        if len(parts) < 2:
-            raise ValueError("Invalid version string")
-        if len(parts) > 3:
-            raise ValueError("Invalid version string")
-        major = int(parts[0])
-        minor = int(parts[1])
-        patch = int(parts[2]) if len(parts) == 3 else 0
-        return Version(major, minor, patch)
+        primary, secondary = _make_list_fun(version.split("-", 1))
+        primary = primary.split(".")
+        if len(primary) < 2:
+            raise ValueError(f"Version string should have at least 2 primary parts: {version}")
+        if len(primary) > 3:
+            raise ValueError(f"Version string should have at most 3 primary parts: {version}")
+        major = int(primary[0])
+        minor = int(primary[1])
+        patch = int(primary[2]) if len(primary) == 3 else 0
+        if len(primary) == 3:
+            prerelease, build_metadata = (
+                _make_list_fun(secondary.split("+", 1)) if secondary is not None else [None, None]
+            )
+            prerelease_tags = prerelease.split(".") if prerelease is not None else []
+        else:
+            prerelease_tags = []
+            build_metadata = None
+        return Version(major, minor, patch, prerelease_tags, build_metadata)
 
     def to_string(self) -> str:
         """Convert the version to a string in the format of `major.minor.patch`."""
-        return f"{self.major}.{self.minor}" + (
-            f".{self.patch}" if self.patch is not None else ""
+        return (
+            f"{self.major}.{self.minor}"
+            + (f".{self.patch}" if self.patch is not None else "")
+            + (f"-{'.'.join(self.prerelease_tags)}" if self.prerelease_tags else "")
         )
 
     def __eq__(self, other: "Version") -> bool:
@@ -52,20 +71,21 @@ class Version:
             self.major == other.major
             and self.minor == other.minor
             and self.patch == other.patch
+            and self.prerelease_tags == other.prerelease_tags
         )
 
     def __lt__(self, other: "Version") -> bool:
-        if self.major < other.major:
-            return True
-        if self.major > other.major:
-            return False
-        if self.minor < other.minor:
-            return True
-        if self.minor > other.minor:
-            return False
-        if self.patch < other.patch:
-            return True
-        return False
+        if (self.major, self.minor, self.patch) == (other.major, other.minor, other.patch):
+            return [
+                ((False, int(tag)) if tag.isdigit() else (True, tag)) for tag in self.prerelease_tags
+            ] < [
+                ((False, int(tag)) if tag.isdigit() else (True, tag)) for tag in other.prerelease_tags
+            ]
+        return (self.major, self.minor, self.patch) < (
+            other.major,
+            other.minor,
+            other.patch
+        )
 
     def __le__(self, other: "Version") -> bool:
         return self == other or self < other
@@ -80,10 +100,10 @@ class Version:
         return not self == other
 
     def __hash__(self) -> int:
-        return hash((self.major, self.minor, self.patch))
+        return hash((self.major, self.minor, self.patch, '.'.join(self.prerelease_tags)), self.build_metadata)
 
     def __repr__(self) -> str:
-        return f"Version({self.major}, {self.minor}, {self.patch})"
+        return f"Version({self.major}, {self.minor}, {self.patch}, {'.'.join(self.prerelease_tags) if self.prerelease_tags else None}, {self.build_metadata})"
 
     def __str__(self) -> str:
         return self.to_string()
@@ -131,11 +151,15 @@ class VersionRange:
         elif range_.endswith(")"):
             upper_mode = VersionEndMode.EXCLUSIVE
         else:
-            raise ValueError("Invalid range string")
+            raise ValueError(
+                f"Version range string should end with ']' or ')': {range_}"
+            )
         range_ = range_[1:-1]
         parts = range_.split(",")
         if len(parts) != 2:
-            raise ValueError("Invalid range string")
+            raise ValueError(
+                f"Version range string should have 2 parts - lower and upper end: {range_}"
+            )
         lower = Version.from_string(parts[0]) if parts[0] else None
         upper = Version.from_string(parts[1]) if parts[1] else None
         return VersionRange(lower, lower_mode, upper, upper_mode)
