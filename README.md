@@ -1,3 +1,7 @@
+> [!NOTE]
+> I am open to unarchive this.  
+> Feel free to message me via any channel, see jojojux.de
+
 # ``crm1`` Python package
 
 This package is a Python implementation of the CRM-1 specification.
